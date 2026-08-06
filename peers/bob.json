@@ -1,0 +1,11 @@
+{
+  "user": "bob",
+  "privacy": "standard",
+  "timestamp": "2026-08-06T20:56:04Z",
+  "entries": [
+    {
+      "path": "cute/",
+      "added": 2
+    }
+  ]
+}
