@@ -1,11 +1,17 @@
 {
   "user": "Mustafa",
-  "privacy": "standard",
-  "timestamp": "2026-08-06T20:31:09Z",
+  "privacy": "full",
+  "timestamp": "2026-08-06T20:31:31Z",
   "entries": [
     {
-      "path": "cute/",
-      "added": 3
+      "path": "cute/cute.go",
+      "added": 1,
+      "ranges": [
+        {
+          "start": 13,
+          "end": 13
+        }
+      ]
     }
   ]
 }
