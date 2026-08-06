@@ -1,0 +1,28 @@
+{
+  "user": "alice",
+  "privacy": "full",
+  "timestamp": "2026-08-06T20:55:58Z",
+  "entries": [
+    {
+      "path": "cute/cute.go",
+      "added": 2,
+      "ranges": [
+        {
+          "start": 13,
+          "end": 14
+        }
+      ]
+    },
+    {
+      "path": "cute/purr.go",
+      "added": 3,
+      "ranges": [
+        {
+          "start": 1,
+          "end": 3
+        }
+      ],
+      "new": true
+    }
+  ]
+}
