@@ -1,28 +1,37 @@
 {
   "user": "alice",
   "privacy": "full",
-  "timestamp": "2026-08-06T20:55:58Z",
+  "timestamp": "2026-08-06T21:03:14Z",
   "entries": [
     {
-      "path": "cute/cute.go",
-      "added": 2,
+      "path": "internal/billing/tax.go",
+      "added": 8,
       "ranges": [
         {
-          "start": 13,
-          "end": 14
+          "start": 10,
+          "end": 17
         }
       ]
     },
     {
-      "path": "cute/purr.go",
-      "added": 3,
+      "path": "internal/orders/order.go",
+      "added": 45,
       "ranges": [
         {
-          "start": 1,
-          "end": 3
+          "start": 21,
+          "end": 65
         }
-      ],
-      "new": true
+      ]
+    },
+    {
+      "path": "internal/orders/queue.go",
+      "added": 22,
+      "ranges": [
+        {
+          "start": 20,
+          "end": 41
+        }
+      ]
     }
   ]
 }
