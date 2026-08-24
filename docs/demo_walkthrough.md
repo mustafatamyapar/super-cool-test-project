@@ -9,12 +9,11 @@ Uses your existing `git config user.name`.
 
 ```bash
 cd impl-ss26-pf3-better-awareness-for-git
+go build -o awareness ./cmd/awareness
 ./awareness demo-setup
-cd ../demo/super-cool-test-project
-../../impl-ss26-pf3-better-awareness-for-git/awareness daemon --watch --privacy full 30s &
 ```
 
-All demo steps below run from `demo/super-cool-test-project/`.
+Then follow the commands it prints. It will tell you exactly where to `cd` and how to start the daemon.
 
 Both computers are now watching for file changes, auto-publishing, and pulling every 30s.
 
