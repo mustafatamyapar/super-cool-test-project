@@ -1,77 +1,67 @@
 # Awareness — Demo Walkthrough
 
-A ~5 minute live demo on the real test project
-(`super-cool-test-project`). Two terminals, two users: **Ali** and **Mustafa**.
+A ~5 minute live demo. Two computers, same setup script.
 
-## Setup (once, before the meeting)
+## Setup (run on each computer)
 
-Build the binary:
+Paste this once. It asks for your name, clones the repo, builds the binary, and starts the watcher.
 
 ```bash
-cd "/Users/amiraliebrahimi/Desktop/IMPL Project/impl-ss26-pf3-better-awareness-for-git"
-go build -o /tmp/awareness ./cmd/awareness
+read -p "Your name: " NAME
+EMAIL=$(echo "$NAME" | tr '[:upper:]' '[:lower:]')@e.com
+rm -rf /tmp/demo && mkdir -p /tmp/demo
+git clone -q https://github.com/mustafatamyapar/super-cool-test-project.git /tmp/demo/repo
+cd /tmp/demo/repo
+git config user.name "$NAME"
+git config user.email "$EMAIL"
+git clone -q https://github.com/stg-tud/impl-ss26-pf3-better-awareness-for-git.git /tmp/demo/tool
+cd /tmp/demo/tool && go build -o /tmp/demo/aw ./cmd/awareness
+cd /tmp/demo/repo
+alias aw=/tmp/demo/aw
+aw install-hook
+aw daemon --watch --privacy full 30s &
+echo "Ready. Working in /tmp/demo/repo as $NAME"
 ```
 
-Two clones of the test repo live in `/tmp/demo` (`pc1` and `pc2`).
-If they are missing or you want a clean slate, run the reset block at the bottom.
-
-Open two terminals:
-
-- **Terminal 1 (Ali):** `cd /tmp/demo/pc1 && alias aw=/tmp/awareness`
-- **Terminal 2 (Mustafa):** `cd /tmp/demo/pc2 && alias aw=/tmp/awareness`
-
-The project contains `main.go`, `cute/cute.go`, `go.mod`, `README.md`.
+Both computers are now watching for file changes, auto-publishing, and pulling every 30s.
 
 ---
 
-## 0. Turn awareness on (background)
+## 1. Person A starts working
 
-In **both** terminals:
-
-```bash
-aw daemon --watch --privacy full 30s
-```
-
-The watcher publishes automatically on save and pulls teammates every 30s.
-Desktop notifications appear when a new overlap is detected.
-
-## 1. Mustafa starts working
-
-**Mustafa (Terminal 2):** just edit and save.
+Just edit and save a file.
 
 ```bash
-printf '\n// mustafa: refactor\n' >> main.go
+printf '\n// refactoring auth\n' >> main.go
 ```
 
-Say: *"No command needed. The background watcher publishes a summary of
-the files he touched and line ranges, never the code itself."*
+Say: *"No command needed. The background watcher publishes what files they
+touched and line ranges, never the code itself."*
 
-## 2. Ali touches the same file — gets a notification
-
-**Ali (Terminal 1):**
+## 2. Person B touches the same file — gets a notification
 
 ```bash
-printf '\n// ali: add logging\n' >> main.go
+printf '\n// adding logging\n' >> main.go
 ```
 
-Wait for the next pull (up to 30s). A desktop notification pops up showing the
-overlap. Check it with:
+Wait up to 30s. A desktop notification pops up showing the overlap.
+Check manually with:
 
 ```bash
 aw status --once
 ```
 
-Point at the `!` marker and `(+lines -lines)`.
-Say: *"Ali finds out while he is still editing, not at push time."*
+Point at the `!` marker.
+Say: *"They find out while still editing, not at push time."*
 
 ## 3. Two-level conflict detection (pre-push hook)
 
-**Ali (Terminal 1):** commit and push to a throwaway branch.
+Person B commits and pushes to a throwaway branch:
 
 ```bash
-git checkout -b ali-demo
-git commit -am "ali: add logging"
-git push -u origin ali-demo
+git checkout -b demo-push
+git commit -am "demo change"
+git push -u origin demo-push
 ```
 
 The pre-push hook fires and shows two levels:
@@ -79,7 +69,7 @@ The pre-push hook fires and shows two levels:
 - **CONFLICT** if both edited overlapping lines:
   ```
   awareness: CONFLICT — overlapping line changes with a teammate:
-    Mustafa (full, updated 1m ago):
+    Ali (full, updated 1m ago):
       ✗ main.go  (you: L40-55, them: L42-60)
 
   Push will continue.
@@ -88,7 +78,7 @@ The pre-push hook fires and shows two levels:
 - **Warning** if same file but different sections:
   ```
   awareness: warning — same area, but no detected line conflict:
-    Mustafa (full, updated 1m ago):
+    Ali (full, updated 1m ago):
       ~ main.go
 
   Push will continue.
@@ -97,95 +87,64 @@ The pre-push hook fires and shows two levels:
 Say: *"It warns, it does not block. And it tells you whether it's a real
 line conflict or just the same file."*
 
-Cleanup after the demo (optional):
-```bash
-git checkout main && git branch -D ali-demo && git push origin --delete ali-demo
-```
+Cleanup: `git checkout main && git branch -D demo-push && git push origin --delete demo-push`
 
 ## 4. AI summary (local Ollama)
 
-**Mustafa (Terminal 2):** make changes and summarize with the local model.
+Person A makes changes and summarizes with the local model:
 
 ```bash
-printf '\n// mustafa: new feature\n' >> cute/cute.go
+printf '\n// new feature\n' >> cute/cute.go
 aw summarize --publish --privacy full
 ```
 
-This calls the local Ollama model (qwen2.5) and attaches a summary note.
-
-**Ali (Terminal 1):** edit an overlapping file and push.
+Person B edits the same file and pushes:
 
 ```bash
-printf '\n// ali: fix cute\n' >> cute/cute.go
-git checkout -b ali-demo2
-git commit -am "ali: fix cute"
-git push -u origin ali-demo2
+printf '\n// fix cute\n' >> cute/cute.go
+git checkout -b demo-push2
+git commit -am "demo change 2"
+git push -u origin demo-push2
 ```
 
 Expected output (note the quoted AI summary):
 
 ```
 awareness: CONFLICT — overlapping line changes with a teammate:
-  Mustafa (full, updated 1m ago):
+  Ali (full, updated 1m ago):
     "Adding a new feature to the cute module"
     ✗ cute/cute.go  (you: L12-15, them: L10-18)
 
 Push will continue.
 ```
 
-Say: *"The AI summary runs locally with Ollama, no data leaves the machine.
-Teammates see a one-line description of what you're working on."*
+Say: *"The AI summary runs locally with Ollama, no data leaves the machine."*
 
 ## 5. Privacy levels
 
-Stop the watcher on Mustafa first so we can publish at chosen levels:
-
-**Mustafa (Terminal 2):** Ctrl-C the daemon, then:
+Person A stops the daemon (Ctrl-C or `kill %1`), then:
 
 ```bash
-aw publish --privacy standard
+aw publish --privacy full       # exact file + real name
+aw publish --privacy standard   # folder only + real name
+aw publish --privacy anonymous  # folder only + hashed alias
 ```
 
-**Ali (Terminal 1):**
+Person B checks after each: `aw status --once`
 
-```bash
-aw status --once
-```
+Say: *"A slider from exact file+name down to folder+alias."*
 
-Shows folder instead of exact file:
-```
-  Mustafa (standard, updated 1m ago):
-    ! cute/
-```
-
-Then anonymous:
-
-```bash
-aw publish --privacy anonymous
-```
-
-Shows hashed alias instead of name:
-```
-  anon-xxxxxxxx (anonymous, updated 1m ago):
-    ! cute/
-```
-
-Say: *"This is the answer to 'how much do we reveal' — a slider from exact
-file+name down to folder+alias."*
-
-## 6. Heatmap (optional finisher)
-
-**Ali (Terminal 1):**
+## 6. Heatmap (optional)
 
 ```bash
 aw heatmap
 ```
 
-Opens an HTML view of team hotspots (files shaded by number of contributors).
+Opens an HTML view of team hotspots.
 
 ## 7. Wrap up
 
-In both terminals:
+On both computers:
 
 ```bash
 aw reset
@@ -193,30 +152,16 @@ aw reset
 
 ---
 
-## Talking points (map to what Fabian asked)
+## Talking points
 
-- **daemon --watch** — awareness is always on, zero babysitting.
-- **Two-level detection** — distinguishes real line conflicts from same-file warnings.
-- **AI summary** — local Ollama model describes what each person is working on.
-- **Privacy levels** — answer his "how much to hide or show" question.
-- **Desktop notifications** — you find out the moment work starts colliding.
-- **status + heatmap** — the "more visual" direction.
+- **daemon --watch** — awareness is always on, zero babysitting
+- **Two-level detection** — real line conflicts vs same-file warnings
+- **AI summary** — local Ollama model, no data leaves the machine
+- **Privacy levels** — how much to reveal is a choice
+- **Desktop notifications** — find out the moment work collides
+- **status + heatmap** — visual overview
 
 ## Who built what
 
-- **Ali:** publishing side — daemon / awareness branch, file watcher, privacy levels, line counts, two-level conflict detection.
-- **Mustafa:** consuming side — pre-push hook, `status` + auto-pull, heatmap, AI summarize.
-
----
-
-## Reset to a clean state (re-run anytime)
-
-```bash
-BIN=/tmp/awareness
-rm -rf /tmp/demo && mkdir -p /tmp/demo && cd /tmp/demo
-git clone -q https://github.com/mustafatamyapar/super-cool-test-project.git pc1
-cd pc1 && git config user.name Ali && git config user.email ali@e.com
-cd /tmp/demo
-git clone -q https://github.com/mustafatamyapar/super-cool-test-project.git pc2
-cd pc2 && git config user.name Mustafa && git config user.email mustafa@e.com
-```
+- **Ali:** daemon, file watcher, privacy levels, two-level conflict detection
+- **Mustafa:** pre-push hook, status, heatmap, AI summarize
