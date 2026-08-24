@@ -1,0 +1,10 @@
+body {
+  font-family: system-ui, sans-serif;
+  max-width: 40rem;
+  margin: 4rem auto;
+  color: #2b2b2b;
+}
+
+h1 { font-weight: 600; }
+
+#menu li { line-height: 1.8; }
