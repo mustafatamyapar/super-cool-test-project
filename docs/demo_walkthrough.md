@@ -4,23 +4,19 @@ A ~5 minute live demo. Two computers, same setup script.
 
 ## Setup (run on each computer)
 
-Paste this once. It asks for your name, clones the repo, builds the binary, and starts the watcher.
+Paste this once. It clones the repo, builds the binary, and starts the watcher. Uses your existing git name.
 
 ```bash
-read -p "Your name: " NAME
-EMAIL=$(echo "$NAME" | tr '[:upper:]' '[:lower:]')@e.com
 rm -rf /tmp/demo && mkdir -p /tmp/demo
 git clone -q https://github.com/mustafatamyapar/super-cool-test-project.git /tmp/demo/repo
 cd /tmp/demo/repo
-git config user.name "$NAME"
-git config user.email "$EMAIL"
 git clone -q https://github.com/stg-tud/impl-ss26-pf3-better-awareness-for-git.git /tmp/demo/tool
 cd /tmp/demo/tool && go build -o /tmp/demo/aw ./cmd/awareness
 cd /tmp/demo/repo
 alias aw=/tmp/demo/aw
 aw install-hook
 aw daemon --watch --privacy full 30s &
-echo "Ready. Working in /tmp/demo/repo as $NAME"
+echo "Ready. Working in /tmp/demo/repo as $(git config user.name)"
 ```
 
 Both computers are now watching for file changes, auto-publishing, and pulling every 30s.
