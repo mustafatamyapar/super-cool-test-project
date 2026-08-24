@@ -8,26 +8,13 @@ Two repos involved:
 
 ## Setup (run on each computer)
 
-Run these line by line.
-
-**Step 1: Clone and build**
-
 ```bash
-rm -rf /tmp/demo && mkdir -p /tmp/demo
-git clone https://github.com/mustafatamyapar/super-cool-test-project.git /tmp/demo/repo
-git clone https://github.com/stg-tud/impl-ss26-pf3-better-awareness-for-git.git /tmp/demo/tool
-cd /tmp/demo/tool && go build -o /tmp/demo/aw ./cmd/awareness
-```
-
-**Step 2: Start awareness (inside the test project)**
-
-```bash
+awareness demo-setup
 cd /tmp/demo/repo
-alias aw=/tmp/demo/aw
-aw install-hook
-aw daemon --watch --privacy full 30s &
+awareness daemon --watch --privacy full 30s &
 ```
 
+That's it. It clones the test project, installs the hook, and tells you what to do next.
 All demo steps below run from `/tmp/demo/repo`.
 
 Both computers are now watching for file changes, auto-publishing, and pulling every 30s.
@@ -55,7 +42,7 @@ Wait up to 30s. A desktop notification pops up showing the overlap.
 Check manually with:
 
 ```bash
-aw status --once
+awareness status --once
 ```
 
 Point at the `!` marker.
@@ -102,7 +89,7 @@ Person A makes changes and summarizes with the local model:
 
 ```bash
 printf '\n// new feature\n' >> cute/cute.go
-aw summarize --publish --privacy full
+awareness summarize --publish --privacy full
 ```
 
 Person B edits the same file and pushes:
@@ -132,19 +119,19 @@ Say: *"The AI summary runs locally with Ollama, no data leaves the machine."*
 Person A stops the daemon (Ctrl-C or `kill %1`), then:
 
 ```bash
-aw publish --privacy full       # exact file + real name
-aw publish --privacy standard   # folder only + real name
-aw publish --privacy anonymous  # folder only + hashed alias
+awareness publish --privacy full       # exact file + real name
+awareness publish --privacy standard   # folder only + real name
+awareness publish --privacy anonymous  # folder only + hashed alias
 ```
 
-Person B checks after each: `aw status --once`
+Person B checks after each: `awareness status --once`
 
 Say: *"A slider from exact file+name down to folder+alias."*
 
 ## 6. Heatmap (optional)
 
 ```bash
-aw heatmap
+awareness heatmap
 ```
 
 Opens an HTML view of team hotspots.
@@ -154,7 +141,7 @@ Opens an HTML view of team hotspots.
 On both computers:
 
 ```bash
-aw reset
+awareness reset
 ```
 
 ---
