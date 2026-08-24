@@ -7,6 +7,8 @@ func TestHelloWithName(t *testing.T) {
 	want := "Hi, Mina. Welcome to the tiny cat cafe."
 
 	if got != want {
+
+		haha
 		t.Fatalf("Hello() = %q, want %q", got, want)
 	}
 }
