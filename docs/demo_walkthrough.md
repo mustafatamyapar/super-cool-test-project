@@ -2,22 +2,33 @@
 
 A ~5 minute live demo. Two computers, same setup script.
 
+Two repos involved:
+- **Test project** (the repo we demo on): `mustafatamyapar/super-cool-test-project`
+- **Awareness tool** (the CLI we built): `stg-tud/impl-ss26-pf3-better-awareness-for-git`
+
 ## Setup (run on each computer)
 
-Paste this once. It clones the repo, builds the binary, and starts the watcher. Uses your existing git name.
+Run these line by line.
+
+**Step 1: Clone and build**
 
 ```bash
 rm -rf /tmp/demo && mkdir -p /tmp/demo
-git clone -q https://github.com/mustafatamyapar/super-cool-test-project.git /tmp/demo/repo
-cd /tmp/demo/repo
-git clone -q https://github.com/stg-tud/impl-ss26-pf3-better-awareness-for-git.git /tmp/demo/tool
+git clone https://github.com/mustafatamyapar/super-cool-test-project.git /tmp/demo/repo
+git clone https://github.com/stg-tud/impl-ss26-pf3-better-awareness-for-git.git /tmp/demo/tool
 cd /tmp/demo/tool && go build -o /tmp/demo/aw ./cmd/awareness
+```
+
+**Step 2: Start awareness (inside the test project)**
+
+```bash
 cd /tmp/demo/repo
 alias aw=/tmp/demo/aw
 aw install-hook
 aw daemon --watch --privacy full 30s &
-echo "Ready. Working in /tmp/demo/repo as $(git config user.name)"
 ```
+
+All demo steps below run from `/tmp/demo/repo`.
 
 Both computers are now watching for file changes, auto-publishing, and pulling every 30s.
 
