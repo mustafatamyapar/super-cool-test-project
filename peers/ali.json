@@ -1,11 +1,17 @@
 {
   "user": "Ali",
-  "privacy": "standard",
-  "timestamp": "2026-08-25T10:44:15Z",
+  "privacy": "full",
+  "timestamp": "2026-08-25T10:44:27Z",
   "entries": [
     {
-      "path": "cute/",
-      "added": 5
+      "path": "cute/cute.go",
+      "added": 5,
+      "ranges": [
+        {
+          "start": 13,
+          "end": 17
+        }
+      ]
     }
   ]
 }
