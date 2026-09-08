@@ -1,40 +1,5 @@
 {
   "user": "jonas",
   "privacy": "full",
-  "timestamp": "2026-09-08T13:24:42Z",
-  "entries": [
-    {
-      "path": "internal/orders/order.go",
-      "added": 22,
-      "removed": 16,
-      "ranges": [
-        {
-          "start": 5,
-          "end": 26
-        }
-      ]
-    },
-    {
-      "path": "internal/orders/queue.go",
-      "added": 9,
-      "removed": 9,
-      "ranges": [
-        {
-          "start": 4,
-          "end": 12
-        }
-      ]
-    },
-    {
-      "path": "main.go",
-      "added": 6,
-      "removed": 6,
-      "ranges": [
-        {
-          "start": 3,
-          "end": 8
-        }
-      ]
-    }
-  ]
+  "timestamp": "2026-09-08T13:41:48Z"
 }
