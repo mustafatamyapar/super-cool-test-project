@@ -1,0 +1,37 @@
+{
+  "user": "Sofia Reyes",
+  "privacy": "full",
+  "timestamp": "2026-09-08T13:26:22Z",
+  "entries": [
+    {
+      "path": "cute/cute.go",
+      "added": 2,
+      "ranges": [
+        {
+          "start": 13,
+          "end": 14
+        }
+      ]
+    },
+    {
+      "path": "internal/billing/invoice.go",
+      "added": 2,
+      "ranges": [
+        {
+          "start": 9,
+          "end": 10
+        }
+      ]
+    },
+    {
+      "path": "internal/billing/tax.go",
+      "added": 2,
+      "ranges": [
+        {
+          "start": 10,
+          "end": 11
+        }
+      ]
+    }
+  ]
+}
