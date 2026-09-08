@@ -1,0 +1,40 @@
+{
+  "user": "priya",
+  "privacy": "full",
+  "timestamp": "2026-09-08T13:24:50Z",
+  "entries": [
+    {
+      "path": "internal/menu/menu.go",
+      "added": 17,
+      "removed": 17,
+      "ranges": [
+        {
+          "start": 6,
+          "end": 22
+        }
+      ]
+    },
+    {
+      "path": "internal/menu/menu_test.go",
+      "added": 5,
+      "removed": 5,
+      "ranges": [
+        {
+          "start": 5,
+          "end": 9
+        }
+      ]
+    },
+    {
+      "path": "web/static/style.css",
+      "added": 28,
+      "removed": 8,
+      "ranges": [
+        {
+          "start": 3,
+          "end": 30
+        }
+      ]
+    }
+  ]
+}
