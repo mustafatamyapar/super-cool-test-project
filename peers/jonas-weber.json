@@ -1,0 +1,27 @@
+{
+  "user": "Jonas Weber",
+  "privacy": "full",
+  "timestamp": "2026-09-08T13:26:53Z",
+  "entries": [
+    {
+      "path": "internal/orders/order.go",
+      "added": 2,
+      "ranges": [
+        {
+          "start": 21,
+          "end": 22
+        }
+      ]
+    },
+    {
+      "path": "internal/orders/queue.go",
+      "added": 2,
+      "ranges": [
+        {
+          "start": 20,
+          "end": 21
+        }
+      ]
+    }
+  ]
+}
