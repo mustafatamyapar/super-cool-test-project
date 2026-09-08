@@ -1,22 +1,5 @@
 {
   "user": "anon-3beb460e",
   "privacy": "anonymous",
-  "timestamp": "2026-09-08T13:25:04Z",
-  "entries": [
-    {
-      "path": "docs/",
-      "added": 7,
-      "removed": 7
-    },
-    {
-      "path": "docs/api/",
-      "added": 4,
-      "removed": 4
-    },
-    {
-      "path": "web/templates/",
-      "added": 11,
-      "removed": 3
-    }
-  ]
+  "timestamp": "2026-09-08T13:42:05Z"
 }
