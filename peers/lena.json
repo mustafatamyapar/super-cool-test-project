@@ -1,0 +1,28 @@
+{
+  "user": "lena",
+  "privacy": "full",
+  "timestamp": "2026-09-08T13:24:35Z",
+  "entries": [
+    {
+      "path": "cute/cute.go",
+      "added": 5,
+      "ranges": [
+        {
+          "start": 13,
+          "end": 17
+        }
+      ]
+    },
+    {
+      "path": "internal/billing/tax.go",
+      "added": 13,
+      "removed": 2,
+      "ranges": [
+        {
+          "start": 8,
+          "end": 20
+        }
+      ]
+    }
+  ]
+}
